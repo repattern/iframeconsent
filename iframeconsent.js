@@ -50,10 +50,9 @@ This tool is provided as custom component which gets autoloaded
         return "";
     };
     class IframeConsent extends HTMLElement {
-        that = this
         constructor() {
             super();
-            window.iframeConsent = {
+            window.iframeConsent = window.iframeConsent || {
                 ver: "iframeconsent by RePattern",
                 load: function (id, nocheck) {
                     let iframecomponent = document.getElementById(id);
@@ -92,7 +91,6 @@ This tool is provided as custom component which gets autoloaded
             };
         }
         connectedCallback() {
-            //this.textContent = 'Hello World!';
             // load all attributes set on the component
             // the the browser preferred language
             this.attachShadow({ mode: 'open' });
