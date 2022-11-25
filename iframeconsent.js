@@ -49,6 +49,12 @@ This tool is provided as custom component which gets autoloaded
                         // load the content of the component
                         iframecomponent.outerHTML = '<iframe ' + iframecomponent.getAttribute("data-iframe-attributes") + '></iframe>';
                     }
+                },
+                iframeConsents:[],
+                loadAll: function(){
+                    for (let i = 0; i < this.iframeConsents.length; i++) {
+                        this.load(this.iframeConsents[i]);
+                    }
                 }
 
             };
@@ -72,6 +78,10 @@ This tool is provided as custom component which gets autoloaded
                 helper = "iframeconsent-" + Math.random().toString(36).substring(2, 9);
             }
             this.id = helper;
+            // if this is not already in the list of iframeconsents, add it
+            if (window.iframeConsent.iframeConsents.indexOf(this.id) == -1) {
+                window.iframeConsent.iframeConsents.push(this.id);
+            }
 
             // prepare the html for showing the consent message
             let html = `
