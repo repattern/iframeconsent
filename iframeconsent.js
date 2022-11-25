@@ -13,7 +13,7 @@ This tool is provided as custom component which gets autoloaded
             en: "Load this content",
             de: "Diesen Inhalt laden",
             fr: "Charger maintenant le contenu",
-            it: "Carica ora questo contenuto",
+            it: "Caricare ora questo contenuto",
         },
         "privacy_policy": {
             en: "Privacy policy",
@@ -23,21 +23,21 @@ This tool is provided as custom component which gets autoloaded
         },
         "external_content": {
             en: "The website contains external content. By clicking on the button, you agree to the use of cookies and the transfer of data to the provider of the external content.",
-            de: "Die Website enthält externe Inhalte. Durch Klicken auf den Button stimmen Sie der Verarbeitung von Cookies und der Übermittlung von Daten an den Anbieter des externen Inhalts zu.",
-            fr: "Le site contient du contenu externe. En cliquant sur le bouton, vous acceptez l'utilisation de cookies et le transfert de données au fournisseur du contenu externe.",
-            it: "Il sito contiene contenuti esterni. Facendo clic sul pulsante, accetti l'utilizzo di cookie e il trasferimento di dati al fornitore del contenuto esterno.",
+            de: "Die Website enthält externe Inhalte. Durch das Klicken auf den Button wird der Verarbeitung von Cookies und der Übermittlung von Daten an den Anbieter des externen Inhalts zugestimmt.",
+            fr: "Le site contient du contenu externe. En cliquant sur le bouton, l'utilisation de cookies et le transfert de données au fournisseur du contenu externe sont acceptés.",
+            it: "Il sito contiene contenuti esterni. Facendo clic sul pulsante, si accetta l'utilizzo di cookie e il trasferimento di dati al fornitore del contenuto esterno.",
         },
         "load_all_label": {
             en: "Load all external content on this website",
             de: "Alle externen Inhalte auf dieser Seite laden",
             fr: "Charger tout le contenu externe sur ce site",
-            it: "Carica tutto il contenuto esterno su questo sito",
+            it: "Caricare tutto il contenuto esterno su questo sito",
         },
         "load_all_button": {
             en: "Load all content",
             de: "Alle Inhalte laden",
             fr: "Charger tout le contenu",
-            it: "Carica tutto i contenuti",
+            it: "Caricare tutti i contenuti",
         },
     };
     let getText = function (key, lang) {
