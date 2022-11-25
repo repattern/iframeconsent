@@ -10,10 +10,10 @@ This tool is provided as custom component which gets autoloaded
 (function () {
     let translations = {
         "load_now_button": {
-            en: "Load now",
-            de: "Jetzt laden",
-            fr: "Charger maintenant",
-            it: "Carica ora",
+            en: "Load this content",
+            de: "Diesen Inhalt laden",
+            fr: "Charger maintenant le contenu",
+            it: "Carica ora questo contenuto",
         },
         "privacy_policy": {
             en: "Privacy policy",
@@ -26,7 +26,19 @@ This tool is provided as custom component which gets autoloaded
             de: "Die Website enthält externe Inhalte. Durch Klicken auf den Button stimmen Sie der Verarbeitung von Cookies und der Übermittlung von Daten an den Anbieter des externen Inhalts zu.",
             fr: "Le site contient du contenu externe. En cliquant sur le bouton, vous acceptez l'utilisation de cookies et le transfert de données au fournisseur du contenu externe.",
             it: "Il sito contiene contenuti esterni. Facendo clic sul pulsante, accetti l'utilizzo di cookie e il trasferimento di dati al fornitore del contenuto esterno.",
-        }
+        },
+        "load_all_label": {
+            en: "Load all external content on this website",
+            de: "Alle externen Inhalte auf dieser Seite laden",
+            fr: "Charger tout le contenu externe sur ce site",
+            it: "Carica tutto il contenuto esterno su questo sito",
+        },
+        "load_all_button": {
+            en: "Load all content",
+            de: "Alle Inhalte laden",
+            fr: "Charger tout le contenu",
+            it: "Carica tutto i contenuti",
+        },
     };
     let getText = function (key, lang) {
         if (translations[key] && translations[key][lang]) {
@@ -43,20 +55,40 @@ This tool is provided as custom component which gets autoloaded
             super();
             window.iframeConsent = {
                 ver: "iframeconsent by RePattern",
-                load: function (id) {
+                load: function (id, nocheck) {
                     let iframecomponent = document.getElementById(id);
                     if (iframecomponent) {
-                        // load the content of the component
-                        iframecomponent.outerHTML = '<iframe ' + iframecomponent.getAttribute("data-iframe-attributes") + '></iframe>';
+                        // check if the checkbox is checked
+                        let checkbox = iframecomponent.shadowRoot.querySelector("#iframe-consent__load_all_checkbox");
+                        if (checkbox && checkbox.checked && !nocheck) {
+                            // call loadAll
+                            window.iframeConsent.loadAll();
+                        } else {
+                            // load the content of the component
+                            iframecomponent.outerHTML = '<iframe ' + iframecomponent.getAttribute("data-iframe-attributes") + '></iframe>';
+                        }
                     }
                 },
                 iframeConsents:[],
                 loadAll: function(){
                     for (let i = 0; i < this.iframeConsents.length; i++) {
-                        this.load(this.iframeConsents[i]);
+                        this.load(this.iframeConsents[i], true);
+                    }
+                },
+                flipButton: function (id) {
+                    let iframecomponent = document.getElementById(id);
+                    if (iframecomponent) {
+                        let button = iframecomponent.shadowRoot.querySelector(".iframe-consent__load_button");
+                        if (button) {
+                            let checkbox = iframecomponent.shadowRoot.querySelector("#iframe-consent__load_all_checkbox");
+                            if (checkbox && checkbox.checked) {
+                                button.innerHTML = getText("load_all_button", iframecomponent.getAttribute("data-language"));
+                            } else {
+                                button.innerHTML = getText("load_now_button", iframecomponent.getAttribute("data-language"));
+                            }
+                        }
                     }
                 }
-
             };
         }
         connectedCallback() {
@@ -69,6 +101,12 @@ This tool is provided as custom component which gets autoloaded
             this.additional_text = this.getAttribute('data-additional-text') || "";
             this.privacy_policy_src = this.getAttribute('data-privacy-policy-src') || "";
             this.preview_src = this.getAttribute('data-preview-src') || "";
+            // get the src="" attribute of the iframe out of the attribute "data-iframe-attributes"
+            this.iframe_src = this.getAttribute('data-iframe-attributes').match(/src="([^"]*)"/)[1] || "";
+            if(this.iframe_src == ""){
+                console.error("iframeconsent: no src attribute found in data-iframe-attributes");
+                return;
+            }
             // the code to be loaded is included in the component's content
             this.privacy_policy_text = this.getAttribute('data-privacy-policy-text') || getText("privacy_policy", this.language);
             // generate unique id
@@ -97,6 +135,8 @@ This tool is provided as custom component which gets autoloaded
                                 background-color: #fff;
                                 color: #000;
                                 padding: 1rem;
+                                max-width: 90vw;
+                                max-height: 90vh;
                             }
                             .iframe-consent__preview {
                                 width: 100%;
@@ -115,7 +155,7 @@ This tool is provided as custom component which gets autoloaded
                             .iframe-consent__message {
                                 position: relative;
                                 z-index: 2;
-                                max-width: 600px;
+                                max-width: 90%;
                                 text-align: center;
                             }
                             /* button */
@@ -158,7 +198,11 @@ This tool is provided as custom component which gets autoloaded
                 `;
             }
             html += `<p>
-                        <button onclick="iframeConsent.load('`+ this.id + `');" class="iframe-consent__load-button">${getText("load_now_button", this.language)}</button>
+                        <label for="iframe-consent__load_all_checkbox"><i>${getText("load_all_label", this.language)}</i></label>
+                        <input onchange="iframeConsent.flipButton('`+ this.id + `');" type="checkbox" id="iframe-consent__load_all_checkbox" />
+                    </p>
+                    <p>
+                        <button title="`+this.iframe_src+`" onclick="iframeConsent.load('`+ this.id + `');" class="iframe-consent__load_button">${getText("load_now_button", this.language)}</button>
                     </p>
                 </div>
                 </div>
