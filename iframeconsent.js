@@ -99,7 +99,7 @@ This tool is provided as custom component which gets autoloaded
                             .iframe-consent__preview img {
                                 width: 100%;
                                 height: 100%;
-                                object-fit: cover;
+                                object-fit: contain;
                                 opacity: 0.2;
                             }
                             .iframe-consent__message {
