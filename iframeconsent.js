@@ -107,6 +107,8 @@ This tool is provided as custom component which gets autoloaded
                 console.error("iframeconsent: no src attribute found in data-iframe-attributes");
                 return;
             }
+            // extract the domain from this.iframe_src
+            this.iframe_domain = this.iframe_src.match(/:\/\/(.[^/]+)/)[1] || "";
             // the code to be loaded is included in the component's content
             this.privacy_policy_text = this.getAttribute('data-privacy-policy-text') || getText("privacy_policy", this.language);
             // generate unique id
@@ -203,6 +205,8 @@ This tool is provided as custom component which gets autoloaded
                     </p>
                     <p>
                         <button title="`+this.iframe_src+`" onclick="iframeConsent.load('`+ this.id + `');" class="iframe-consent__load_button">${getText("load_now_button", this.language)}</button>
+                    <br>
+                        <small style="align:center"><i>`+this.iframe_domain+`</i></small>
                     </p>
                 </div>
                 </div>
