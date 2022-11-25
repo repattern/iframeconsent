@@ -80,8 +80,6 @@ This tool is provided as custom component which gets autoloaded
                         <style>
                             .iframe-consent {
                                 position: relative;
-                                width: 100%;
-                                height: 100%;
                                 display: flex;
                                 flex-direction: column;
                                 justify-content: center;
