@@ -144,7 +144,6 @@ This tool is provided as custom component which gets autoloaded
                                 position: absolute;
                                 top: 0;
                                 left: 0;
-                                z-index: 1;
                             }
                             .iframe-consent__preview img {
                                 width: 100%;
@@ -154,7 +153,6 @@ This tool is provided as custom component which gets autoloaded
                             }
                             .iframe-consent__message {
                                 position: relative;
-                                z-index: 2;
                                 max-width: 90%;
                                 text-align: center;
                             }
