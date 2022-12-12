@@ -171,12 +171,14 @@ This tool is provided as custom component which gets autoloaded
             if (cookie) {
                 // if the cookie is set to "all", then load all iframeconsents
                 if (cookie[1] === "all") {
+                    this.cookieConsents = "all";
                     window.iframeConsent.loadAll();
                     return;
                 } else {
                     // load the iframeconsent with the id that is saved in the cookie
                     // check if the cookie contains multiple ids
                     let ids = cookie[1].split(",");
+                    this.cookieConsents = ids;
                     for (let i = 0; i < ids.length; i++) {
                         window.iframeConsent.load(ids[i]);
                     }

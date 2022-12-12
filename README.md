@@ -19,7 +19,7 @@ Once the library is added, it can be used like this:
 
     // get the cookie consent status
     // possible values
-    // - undefined: no cookie set
+    // - false: no cookie set
     // - one id: id of the iframe the user agree to
     // - comma-separated list of ids: ids of the iframes the user agreed to
     // - "all": user agreed to all iframes
