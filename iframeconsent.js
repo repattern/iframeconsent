@@ -295,6 +295,8 @@ This tool is provided as custom component which gets autoloaded
                 </html>
             `;
             this.shadowRoot.innerHTML = html;
+            // fire an event to signal that the iframe is ready
+            window.dispatchEvent(new CustomEvent('iframeConsentLoaded', { bubbles: true, composed: true }));
         }
     }
     customElements.define('iframe-consent', IframeConsent);
