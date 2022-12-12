@@ -173,6 +173,7 @@ This tool is provided as custom component which gets autoloaded
                 if (cookie[1] === "all") {
                     window.iframeConsent.cookieConsents = "all";
                     window.iframeConsent.loadAll();
+                    window.dispatchEvent(new CustomEvent('iframeConsentLoaded', { bubbles: true, composed: true }));
                     return;
                 } else {
                     // load the iframeconsent with the id that is saved in the cookie
@@ -182,6 +183,7 @@ This tool is provided as custom component which gets autoloaded
                     for (let i = 0; i < ids.length; i++) {
                         window.iframeConsent.load(ids[i]);
                     }
+                    window.dispatchEvent(new CustomEvent('iframeConsentLoaded', { bubbles: true, composed: true }));
                     return;
                 }
             }
