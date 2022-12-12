@@ -73,6 +73,7 @@ This tool is provided as custom component which gets autoloaded
                             if (checkbox && checkbox.checked && !nocheck) {
                                 // call loadAll
                                 window.iframeConsent.loadAll();
+                                return;
                             } else {
                                 // load the content of the component
                                 iframecomponent.outerHTML = '<iframe ' + iframecomponent.getAttribute("data-iframe-attributes") + '></iframe>';
@@ -82,16 +83,16 @@ This tool is provided as custom component which gets autoloaded
                             if (savechoice && savechoice.checked) {
                                 // save the choice in a cookie
                                 let date = new Date();
-                                date.setTime(date.getTime() + (15 * 24 * 60 * 60 * 1000));
+                                date.setTime(date.getTime() + (this.cookieExpirationDays * 24 * 60 * 60 * 1000));
                                 let expires = "expires=" + date.toUTCString();
                                 // if nocheck, then set the id to "all"
-                                if (nocheck) {
-                                    id = "all";
-                                }
                                 // if a cookie with the same name already exists, add the id to the cookie
                                 let cookie = document.cookie.match(/repattern_iframeconsent=([^;]*)/);
                                 if (cookie) {
                                     id = cookie[1] + "," + id;
+                                }
+                                if (nocheck) {
+                                    id = "all";
                                 }
                                 document.cookie = "repattern_iframeconsent=" + id + "; " + expires + "; path=/";
                             }

@@ -9,6 +9,7 @@ Attributes:
 - data-privacy-policy-text: If you want to change the Link text to the privacy policy, optional
 - data-additional-text: Used to add additional own text, e.g. explaining what you are embedding, optional
 - data-custom-text: Replace the whole text displayed with your own, optional
+- data-cookie-expiration-days: Set the cookie expiration time in days, optional, standard is 15 days
 
 ## Usage example
 
@@ -25,6 +26,7 @@ Attributes:
             data-iframe-attributes='src="https://www.youtube.com/embed/8Qn_spdM5Zg" width="560" height="315" frameborder="0" allowfullscreen'
             data-preview-src="https://i.ytimg.com/vi/8Qn_spdM5Zg/maxresdefault.jpg"
             data-privacy-policy-src="https://www.google.com/intl/de/policies/privacy/"
-            data-additional-text="Wir laden hier das Terminbuchungstool von Microsoft" />
+            data-additional-text="Wir laden hier das Terminbuchungstool von Microsoft"
+            data-cookie-expiration-days="20" />
     </div>
 </body>
