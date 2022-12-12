@@ -11,6 +11,22 @@ Attributes:
 - data-custom-text: Replace the whole text displayed with your own, optional
 - data-cookie-expiration-days: Set the cookie expiration time in days, optional, standard is 15 days. You can deactivate the cookie, if you set the value to 0.
 
+Once the library is added, it can be used like this:
+
+```javascript
+    // load all iframes
+    window.iframeconsent.loadAll();
+
+    // get the cookie consent status
+    // possible values
+    // - undefined: no cookie set
+    // - one id: id of the iframe the user agree to
+    // - comma-separated list of ids: ids of the iframes the user agreed to
+    // - "all": user agreed to all iframes
+    let givenConsents = window.iframeconsent.cookieConsents;
+
+```	
+
 ## Usage example
 
 ```html
@@ -30,3 +46,4 @@ Attributes:
             data-cookie-expiration-days="20" />
     </div>
 </body>
+```

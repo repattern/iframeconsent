@@ -64,6 +64,7 @@ This tool is provided as custom component which gets autoloaded
             super();
             window.iframeConsent = window.iframeConsent || {
                 ver: "iframeconsent by RePattern",
+                cookieConsents: false,
                 load: function (id, nocheck) {
                     try {
                         let iframecomponent = document.getElementById(id);
@@ -94,6 +95,7 @@ This tool is provided as custom component which gets autoloaded
                                 if (nocheck) {
                                     id = "all";
                                 }
+                                this.cookieConsents = id;
                                 document.cookie = "repattern_iframeconsent=" + id + "; " + expires + "; path=/";
                             }
                         }
