@@ -95,7 +95,7 @@ This tool is provided as custom component which gets autoloaded
                                 if (nocheck) {
                                     id = "all";
                                 }
-                                this.cookieConsents = id;
+                                window.iframeConsent.cookieConsents = id;
                                 document.cookie = "repattern_iframeconsent=" + id + "; " + expires + "; path=/";
                             }
                         }
@@ -178,7 +178,7 @@ This tool is provided as custom component which gets autoloaded
                     // load the iframeconsent with the id that is saved in the cookie
                     // check if the cookie contains multiple ids
                     let ids = cookie[1].split(",");
-                    this.cookieConsents = ids;
+                    window.iframeConsent.cookieConsents = ids;
                     for (let i = 0; i < ids.length; i++) {
                         window.iframeConsent.load(ids[i]);
                     }
