@@ -132,7 +132,8 @@ This tool is provided as custom component which gets autoloaded
             this.additional_text = this.getAttribute('data-additional-text') || "";
             this.privacy_policy_src = this.getAttribute('data-privacy-policy-src') || "";
             this.preview_src = this.getAttribute('data-preview-src') || "";
-            this.cookieExpirationDays = this.getAttribute('data-cookie-expiration-days') || 15;
+            this.cookieExpirationDays = parseInt(this.getAttribute('data-cookie-expiration-days')) || 15;
+
             // get the src="" attribute of the iframe out of the attribute "data-iframe-attributes"
             this.iframe_src = this.getAttribute('data-iframe-attributes').match(/src="([^"]*)"/)[1] || "";
             if (this.iframe_src == "") {
@@ -258,10 +259,14 @@ This tool is provided as custom component which gets autoloaded
             html += `<p>
                         <label for="iframe-consent__load_all_checkbox"><i>${getText("load_all_label", this.language)}</i></label>
                         <input onchange="iframeConsent.flipButton('`+ this.id + `');" type="checkbox" id="iframe-consent__load_all_checkbox" />
-                    <br>
-                        <label for="iframe-consent__save_choice_checkbox"><i>${getText("save_choice_label", this.language, {'cookie_expiration_days':this.cookieExpirationDays})}</i></label>
+                    <br>`;
+            if (this.cookieExpirationDays > 0) {
+                html += `
+                        <label for="iframe-consent__save_choice_checkbox"><i>${getText("save_choice_label", this.language, { 'cookie_expiration_days': this.cookieExpirationDays })}</i></label>
                         <input type="checkbox" id="iframe-consent__save_choice_checkbox" />
-                    </p>
+                        `;
+            }
+            html += `</p>
                     <p>
                         <button title="`+ this.iframe_src + `" onclick="iframeConsent.load('` + this.id + `');" class="iframe-consent__load_button">${getText("load_now_button", this.language)}</button>
                     <br>

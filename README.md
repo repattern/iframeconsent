@@ -9,7 +9,7 @@ Attributes:
 - data-privacy-policy-text: If you want to change the Link text to the privacy policy, optional
 - data-additional-text: Used to add additional own text, e.g. explaining what you are embedding, optional
 - data-custom-text: Replace the whole text displayed with your own, optional
-- data-cookie-expiration-days: Set the cookie expiration time in days, optional, standard is 15 days
+- data-cookie-expiration-days: Set the cookie expiration time in days, optional, standard is 15 days. You can deactivate the cookie, if you set the value to 0.
 
 ## Usage example
 
