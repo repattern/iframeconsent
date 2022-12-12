@@ -33,6 +33,12 @@ This tool is provided as custom component which gets autoloaded
             fr: "Charger tout le contenu externe sur ce site",
             it: "Caricare tutto il contenuto esterno su questo sito",
         },
+        "save_choice_label": {
+            en: "Don't ask me for {{cookie_expiration_days}} days (functional cookie)",
+            de: "Für {{cookie_expiration_days}} Tage nicht mehr fragen (Funktionscookie)",
+            fr: "Ne plus me demander pendant {{cookie_expiration_days}} jours (cookie fonctionnel)",
+            it: "Non chiedermelo per {{cookie_expiration_days}} giorni (cookie funzionale)",
+        },
         "load_all_button": {
             en: "Load all content",
             de: "Alle Inhalte laden",
@@ -40,12 +46,16 @@ This tool is provided as custom component which gets autoloaded
             it: "Caricare tutti i contenuti",
         },
     };
-    let getText = function (key, lang) {
+    let getText = function (key, lang, replacements) {
         if (translations[key] && translations[key][lang]) {
-            return translations[key][lang];
+            return translations[key][lang].replace(/{{([^}]*)}}/g, function (match, p1) {
+                return replacements[p1];
+            });
         }
         if (translations[key]) {
-            return translations[key]["en"];
+            return translations[key]["en"].replace(/{{([^}]*)}}/g, function (match, p1) {
+                return replacements[p1];
+            });
         }
         return "";
     };
@@ -55,21 +65,43 @@ This tool is provided as custom component which gets autoloaded
             window.iframeConsent = window.iframeConsent || {
                 ver: "iframeconsent by RePattern",
                 load: function (id, nocheck) {
-                    let iframecomponent = document.getElementById(id);
-                    if (iframecomponent) {
-                        // check if the checkbox is checked
-                        let checkbox = iframecomponent.shadowRoot.querySelector("#iframe-consent__load_all_checkbox");
-                        if (checkbox && checkbox.checked && !nocheck) {
-                            // call loadAll
-                            window.iframeConsent.loadAll();
-                        } else {
-                            // load the content of the component
-                            iframecomponent.outerHTML = '<iframe ' + iframecomponent.getAttribute("data-iframe-attributes") + '></iframe>';
+                    try {
+                        let iframecomponent = document.getElementById(id);
+                        if (iframecomponent) {
+                            // check if the checkbox is checked
+                            let checkbox = iframecomponent.shadowRoot.querySelector("#iframe-consent__load_all_checkbox");
+                            if (checkbox && checkbox.checked && !nocheck) {
+                                // call loadAll
+                                window.iframeConsent.loadAll();
+                            } else {
+                                // load the content of the component
+                                iframecomponent.outerHTML = '<iframe ' + iframecomponent.getAttribute("data-iframe-attributes") + '></iframe>';
+                            }
+                            // check if the iframe-consent__save_choice_checkbox is checked
+                            let savechoice = iframecomponent.shadowRoot.querySelector("#iframe-consent__save_choice_checkbox");
+                            if (savechoice && savechoice.checked) {
+                                // save the choice in a cookie
+                                let date = new Date();
+                                date.setTime(date.getTime() + (15 * 24 * 60 * 60 * 1000));
+                                let expires = "expires=" + date.toUTCString();
+                                // if nocheck, then set the id to "all"
+                                if (nocheck) {
+                                    id = "all";
+                                }
+                                // if a cookie with the same name already exists, add the id to the cookie
+                                let cookie = document.cookie.match(/repattern_iframeconsent=([^;]*)/);
+                                if (cookie) {
+                                    id = cookie[1] + "," + id;
+                                }
+                                document.cookie = "repattern_iframeconsent=" + id + "; " + expires + "; path=/";
+                            }
                         }
+                    } catch (e) {
+                        console.log(e);
                     }
                 },
-                iframeConsents:[],
-                loadAll: function(){
+                iframeConsents: [],
+                loadAll: function () {
                     for (let i = 0; i < this.iframeConsents.length; i++) {
                         this.load(this.iframeConsents[i], true);
                     }
@@ -99,9 +131,10 @@ This tool is provided as custom component which gets autoloaded
             this.additional_text = this.getAttribute('data-additional-text') || "";
             this.privacy_policy_src = this.getAttribute('data-privacy-policy-src') || "";
             this.preview_src = this.getAttribute('data-preview-src') || "";
+            this.cookieExpirationDays = this.getAttribute('data-cookie-expiration-days') || 15;
             // get the src="" attribute of the iframe out of the attribute "data-iframe-attributes"
             this.iframe_src = this.getAttribute('data-iframe-attributes').match(/src="([^"]*)"/)[1] || "";
-            if(this.iframe_src == ""){
+            if (this.iframe_src == "") {
                 console.error("iframeconsent: no src attribute found in data-iframe-attributes");
                 return;
             }
@@ -109,16 +142,42 @@ This tool is provided as custom component which gets autoloaded
             this.iframe_domain = this.iframe_src.match(/:\/\/(.[^/]+)/)[1] || "";
             // the code to be loaded is included in the component's content
             this.privacy_policy_text = this.getAttribute('data-privacy-policy-text') || getText("privacy_policy", this.language);
-            // generate unique id
-            var helper = "iframeconsent-" + Math.random().toString(36).substring(2, 9);
+            // generate unique id based on the this.iframe_src attribute
+            // remove all slashes dots and colons
+            var helper = this.iframe_src.replace(/[/.:]/g, "");
+            // make it lowercase
+            helper = helper.toLowerCase();
+            var finalHelper = "iframeconsent-" + helper;
+
+            // var helper = "iframeconsent-" + Math.random().toString(36).substring(2, 9);
             // check if this id already exists in the main dom
-            while (document.getElementById(helper) != null) {
-                helper = "iframeconsent-" + Math.random().toString(36).substring(2, 9);
+            let index = 1;
+            while (document.getElementById(finalHelper) != null) {
+                finalHelper = "iframeconsent-" + helper + index;
+                index++;
             }
-            this.id = helper;
+            this.id = finalHelper;
             // if this is not already in the list of iframeconsents, add it
             if (window.iframeConsent.iframeConsents.indexOf(this.id) == -1) {
                 window.iframeConsent.iframeConsents.push(this.id);
+            }
+
+            // check if the browser has saved any cookies that start with repatter_iframeconsent
+            let cookie = document.cookie.match(/repattern_iframeconsent=([^;]*)/);
+            if (cookie) {
+                // if the cookie is set to "all", then load all iframeconsents
+                if (cookie[1] === "all") {
+                    window.iframeConsent.loadAll();
+                    return;
+                } else {
+                    // load the iframeconsent with the id that is saved in the cookie
+                    // check if the cookie contains multiple ids
+                    let ids = cookie[1].split(",");
+                    for (let i = 0; i < ids.length; i++) {
+                        window.iframeConsent.load(ids[i]);
+                    }
+                    return;
+                }
             }
 
             // prepare the html for showing the consent message
@@ -188,7 +247,7 @@ This tool is provided as custom component which gets autoloaded
                         <div class="iframe-consent__message">
                             <p>${this.custom_text}</p>
                             `;
-            if (this.additional_text){
+            if (this.additional_text) {
                 html += `<p>${this.additional_text}</p>`;
             }
             if (this.privacy_policy_src) {
@@ -198,11 +257,14 @@ This tool is provided as custom component which gets autoloaded
             html += `<p>
                         <label for="iframe-consent__load_all_checkbox"><i>${getText("load_all_label", this.language)}</i></label>
                         <input onchange="iframeConsent.flipButton('`+ this.id + `');" type="checkbox" id="iframe-consent__load_all_checkbox" />
+                    <br>
+                        <label for="iframe-consent__save_choice_checkbox"><i>${getText("save_choice_label", this.language, {'cookie_expiration_days':this.cookieExpirationDays})}</i></label>
+                        <input type="checkbox" id="iframe-consent__save_choice_checkbox" />
                     </p>
                     <p>
-                        <button title="`+this.iframe_src+`" onclick="iframeConsent.load('`+ this.id + `');" class="iframe-consent__load_button">${getText("load_now_button", this.language)}</button>
+                        <button title="`+ this.iframe_src + `" onclick="iframeConsent.load('` + this.id + `');" class="iframe-consent__load_button">${getText("load_now_button", this.language)}</button>
                     <br>
-                        <small style="align:center"><i>`+this.iframe_domain+`</i></small>
+                        <small style="align:center"><i>`+ this.iframe_domain + `</i></small>
                     </p>
                 </div>
                 </div>
