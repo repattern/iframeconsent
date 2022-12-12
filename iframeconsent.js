@@ -171,7 +171,7 @@ This tool is provided as custom component which gets autoloaded
             if (cookie) {
                 // if the cookie is set to "all", then load all iframeconsents
                 if (cookie[1] === "all") {
-                    this.cookieConsents = "all";
+                    window.iframeConsent.cookieConsents = "all";
                     window.iframeConsent.loadAll();
                     return;
                 } else {
