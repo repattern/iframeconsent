@@ -199,8 +199,6 @@ This tool is provided as custom component which gets autoloaded
                                 flex-direction: column;
                                 justify-content: center;
                                 align-items: center;
-                                background-color: #fff;
-                                color: #000;
                                 padding: 1rem;
                                 max-width: 90vw;
                                 max-height: 90vh;
@@ -225,23 +223,20 @@ This tool is provided as custom component which gets autoloaded
                             }
                             /* button */
                             .iframe-consent__button {
-                                background-color: #000;
-                                color: #fff;
                                 border: none;
                                 padding: 1rem 2rem;
                                 margin: 1rem;
                                 cursor: pointer;
                             }
                             .iframe-consent__button:hover {
-                                background-color: #333;
+                                filter: brightness(70%);
                             }
                             /* link */
                             .iframe-consent__link {
-                                color: #000;
                                 text-decoration: underline;
                             }
                             .iframe-consent__link:hover {
-                                color: #333;
+                                filter: brightness(70%);
                             }
                             /* add a very small logo on the bottom right corner */
                             .iframe-consent__logo {
