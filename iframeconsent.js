@@ -200,8 +200,6 @@ This tool is provided as custom component which gets autoloaded
                                 justify-content: center;
                                 align-items: center;
                                 padding: 1rem;
-                                max-width: 90vw;
-                                max-height: 90vh;
                             }
                             .iframe-consent__preview {
                                 position: absolute;
@@ -259,10 +257,10 @@ This tool is provided as custom component which gets autoloaded
             }
             html += `</div>
                         <div class="iframe-consent__message">
-                            <p>${this.custom_text}</p>
+                            ${this.custom_text}<br>
                             `;
             if (this.additional_text) {
-                html += `<p>${this.additional_text}</p>`;
+                html += `${this.additional_text}<br>`;
             }
             if (this.privacy_policy_src) {
                 html += `<p><a class="iframe-consent__link" href="${this.privacy_policy_src}" target="_blank">${this.privacy_policy_text}</a></p>
