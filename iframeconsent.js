@@ -204,8 +204,6 @@ This tool is provided as custom component which gets autoloaded
                                 max-height: 90vh;
                             }
                             .iframe-consent__preview {
-                                width: 100%;
-                                height: 100%;
                                 position: absolute;
                                 top: 0;
                                 left: 0;
@@ -220,6 +218,11 @@ This tool is provided as custom component which gets autoloaded
                                 position: relative;
                                 max-width: 90%;
                                 text-align: center;
+                                /* align vertically */
+                                display: flex;
+                                flex-direction: column;
+                                justify-content: center;
+                                align-items: center;
                             }
                             /* button */
                             .iframe-consent__button {
