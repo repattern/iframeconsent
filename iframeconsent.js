@@ -184,7 +184,10 @@ This tool is provided as custom component which gets autoloaded
                         window.iframeConsent.load(ids[i]);
                     }
                     window.dispatchEvent(new CustomEvent('iframeConsentLoaded', { bubbles: true, composed: true }));
-                    return;
+                    // if this.id is contained in ids, then return, because we don't need to show the consent message
+                    if (ids.indexOf(this.id) != -1) {
+                        return;
+                    }
                 }
             }
 
