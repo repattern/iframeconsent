@@ -197,7 +197,7 @@ This tool is provided as custom component which gets autoloaded
             if (this.preview_src) {
                 html += `.iframe-consent:before { content: "";
                 background-image: url('${this.preview_src}');
-                background-size: contain;
+                background-size: cover;
                 position: absolute;
                 background-repeat: no-repeat;
                 background-position: center;
