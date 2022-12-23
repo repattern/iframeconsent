@@ -22,10 +22,10 @@ This tool is provided as custom component which gets autoloaded
             it: "Politica sulla privacy",
         },
         "external_content": {
-            en: "The website contains external content. By clicking on the button, you agree to the use of cookies and the transfer of data to the provider of the external content.",
-            de: "Die Website enthält externe Inhalte. Durch das Klicken auf den Button wird der Verarbeitung von Cookies und der Übermittlung von Daten an den Anbieter des externen Inhalts zugestimmt.",
-            fr: "Le site contient du contenu externe. En cliquant sur le bouton, l'utilisation de cookies et le transfert de données au fournisseur du contenu externe sont acceptés.",
-            it: "Il sito contiene contenuti esterni. Facendo clic sul pulsante, si accetta l'utilizzo di cookie e il trasferimento di dati al fornitore del contenuto esterno.",
+            en: "External content: By clicking on the button, you agree to the use of cookies and the transfer of data to the provider of the external content.",
+            de: "Externe Inhalte: Durch das Klicken auf den Button wird der Verarbeitung von Cookies und der Übermittlung von Daten an den Anbieter des externen Inhalts zugestimmt.",
+            fr: "Contenu externe: En cliquant sur le bouton, l'utilisation de cookies et le transfert de données au fournisseur du contenu externe sont acceptés.",
+            it: "Contenuti esterni: Facendo clic sul pulsante, si accetta l'utilizzo di cookie e il trasferimento di dati al fornitore del contenuto esterno.",
         },
         "load_all_label": {
             en: "Load all external content on this website",
@@ -214,13 +214,14 @@ This tool is provided as custom component which gets autoloaded
                             }
                             .iframe-consent__message {
                                 position: relative;
-                                max-width: 90%;
+                                max-width: 99%;
                                 text-align: center;
-                                /* align vertically */
                                 display: flex;
                                 flex-direction: column;
                                 justify-content: center;
                                 align-items: center;
+                                line-height: 1.5rem;
+                                font-size: 1.8vw;
                             }
                             /* button */
                             .iframe-consent__button {
