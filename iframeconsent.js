@@ -237,7 +237,7 @@ This tool is provided as custom component which gets autoloaded
                                 justify-content: center;
                                 align-items: center;
                                 line-height: 1.5rem;
-                                font-size: 1.8vw;
+                                font-size: 1.5rem;
                             }
                             /* button */
                             .iframe-consent__load_button {
