@@ -193,6 +193,20 @@ This tool is provided as custom component which gets autoloaded
                 <html>
                     <head>
                         <style>
+                        `;
+            if (this.preview_src) {
+                html += `.iframe-consent:before { content: "";
+                background-image: url('${this.preview_src}');
+                background-size: cover;
+                position: absolute;
+                top: 0px;
+                right: 0px;
+                bottom: 0px;
+                left: 0px;
+                opacity: 0.25;}`;
+            }
+            html += 
+                            `
                             .iframe-consent {
                                 position: relative;
                                 display: flex;
@@ -224,13 +238,13 @@ This tool is provided as custom component which gets autoloaded
                                 font-size: 1.8vw;
                             }
                             /* button */
-                            .iframe-consent__button {
-                                border: none;
+                            .iframe-consent__load_button {
+                                border: 1px solid black;
                                 padding: 1rem 2rem;
                                 margin: 1rem;
                                 cursor: pointer;
                             }
-                            .iframe-consent__button:hover {
+                            .iframe-consent__load_button:hover {
                                 filter: brightness(70%);
                             }
                             /* link */
@@ -253,9 +267,9 @@ This tool is provided as custom component which gets autoloaded
                 <body>
                     <div class="iframe-consent">
                         <div class="iframe-consent__preview">`;
-            if (this.preview_src) {
+            /*if (this.preview_src) {
                 html += `<img src="${this.preview_src}" />`;
-            }
+            }*/
             html += `</div>
                         <div class="iframe-consent__message">
                             ${this.custom_text}<br>
