@@ -65,6 +65,24 @@ This tool is provided as custom component which gets autoloaded
             window.iframeConsent = window.iframeConsent || {
                 ver: "iframeconsent by RePattern",
                 cookieConsents: false,
+                resizeDiv:function(id, preview_src) {
+                    // calculate the height for the div, if the image is cut off
+                    // get the real image size
+                    let img = new Image();
+                    img.src = preview_src;
+                    let width = img.width;
+                    let height = img.height;
+                    
+                    // get height of the div .iframe-consent
+                    let iframecomponent = document.getElementById(id);
+                    let iframeConsentEl = iframecomponent.shadowRoot.querySelector(".iframe-consent");
+                    let iframeConsentHeight = iframeConsentEl.offsetHeight;
+                    let iframeConsentWidth = iframeConsentEl.offsetWidth;
+                    let ratio = width / iframeConsentWidth;
+                    if (iframeConsentHeight<height*ratio){
+                        iframeConsentEl.style.height = (height*ratio) + "px";
+                    }
+                },
                 load: function (id, nocheck) {
                     try {
                         let iframecomponent = document.getElementById(id);
@@ -199,28 +217,10 @@ This tool is provided as custom component which gets autoloaded
                         `;
             if (this.preview_src) {
                 // bind resizeDiv to the current id and preview_src, create a function
-                let resizeDivCall = new Function("resizeDiv('" + this.id + "', '" + this.preview_src + "')");
+                let resizeDivCall = new Function("window.iframeConsent.resizeDiv('" + this.id + "', '" + this.preview_src + "')");
                 window.addEventListener("resize", resizeDivCall);
                 window.addEventListener("load", resizeDivCall);
                 
-                function resizeDiv(id, preview_src) {
-                    // calculate the height for the div, if the image is cut off
-                    // get the real image size
-                    let img = new Image();
-                    img.src = preview_src;
-                    let width = img.width;
-                    let height = img.height;
-                    
-                    // get height of the div .iframe-consent
-                    let iframecomponent = document.getElementById(id);
-                    let iframeConsentEl = iframecomponent.shadowRoot.querySelector(".iframe-consent");
-                    let iframeConsentHeight = iframeConsentEl.offsetHeight;
-                    let iframeConsentWidth = iframeConsentEl.offsetWidth;
-                    let ratio = width / iframeConsentWidth;
-                    if (iframeConsentHeight<height*ratio){
-                        iframeConsentEl.style.height = (height*ratio) + "px";
-                    }
-                }
                 let backgroundSize = "cover" || this.getAttribute('data-background-size');
                 html += `.iframe-consent:before { content: "";
                 background-image: url('${this.preview_src}');
