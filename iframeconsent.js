@@ -221,11 +221,6 @@ This tool is provided as custom component which gets autoloaded
                                 align-items: center;
                                 padding: 1rem;
                             }
-                            .iframe-consent__preview {
-                                position: absolute;
-                                top: 0;
-                                left: 0;
-                            }
                             .iframe-consent__message {
                                 position: relative;
                                 max-width: 99%;
@@ -236,7 +231,6 @@ This tool is provided as custom component which gets autoloaded
                                 align-items: center;
                                 line-height: 1.5rem;
                                 font-size: 1.5rem;
-                                height:70vh;
                             }
                             /* button */
                             .iframe-consent__load_button {
@@ -266,13 +260,11 @@ This tool is provided as custom component which gets autoloaded
                         </style>
                     </head>
                 <body>
-                    <div class="iframe-consent">
-                        <div class="iframe-consent__preview">`;
+                    <div class="iframe-consent">`;
             /*if (this.preview_src) {
                 html += `<img src="${this.preview_src}" />`;
             }*/
-            html += `</div>
-                        <div class="iframe-consent__message">
+            html += `<div class="iframe-consent__message">
                             ${this.custom_text}<br>
                             `;
             if (this.additional_text) {
