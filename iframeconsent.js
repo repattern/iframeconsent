@@ -245,7 +245,7 @@ This tool is provided as custom component which gets autoloaded
                                 flex-direction: column;
                                 justify-content: center;
                                 align-items: center;
-                                padding: 1rem;
+                                padding: 3px;
                             }
                             .iframe-consent__message {
                                 position: relative;
@@ -262,7 +262,7 @@ This tool is provided as custom component which gets autoloaded
                             .iframe-consent__load_button {
                                 border: 1px solid black;
                                 padding: 1rem 2rem;
-                                margin: 1rem;
+                                margin: 2px;
                                 cursor: pointer;
                             }
                             .iframe-consent__load_button:hover {
@@ -297,10 +297,10 @@ This tool is provided as custom component which gets autoloaded
                 html += `${this.additional_text}<br>`;
             }
             if (this.privacy_policy_src) {
-                html += `<p><a class="iframe-consent__link" href="${this.privacy_policy_src}" target="_blank">${this.privacy_policy_text}</a></p>
+                html += `<a class="iframe-consent__link" href="${this.privacy_policy_src}" target="_blank">${this.privacy_policy_text}</a>
                 `;
             }
-            html += `<p>
+            html += `
                         <label for="iframe-consent__load_all_checkbox"><i>${getText("load_all_label", this.language)}</i></label>
                         <input onchange="iframeConsent.flipButton('`+ this.id + `');" type="checkbox" id="iframe-consent__load_all_checkbox" />
                     <br>`;
@@ -310,12 +310,12 @@ This tool is provided as custom component which gets autoloaded
                         <input type="checkbox" id="iframe-consent__save_choice_checkbox" />
                         `;
             }
-            html += `</p>
-                    <p>
+            html += `
+                    <br>
                         <button title="`+ this.iframe_src + `" onclick="iframeConsent.load('` + this.id + `');" class="iframe-consent__load_button">${getText("load_now_button", this.language)}</button>
                     <br>
                         <small style="align:center"><i>`+ this.iframe_domain + `</i></small>
-                    </p>
+                    
                     `;
                     // if the domain we are on is not repattern.de then show the repattern logo
                     if (window.location.hostname !== "repattern.de") {
