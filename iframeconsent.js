@@ -66,7 +66,7 @@ This tool is provided as custom component which gets autoloaded
                 ver: "iframeconsent by RePattern",
                 cookieConsents: false,
                 resizeDiv:function(id, preview_src) {
-                    return;
+                    
                     // calculate the height for the div, if the image is cut off
                     // get the real image size
                     let img = new Image();
