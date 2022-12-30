@@ -198,8 +198,10 @@ This tool is provided as custom component which gets autoloaded
                         <style>
                         `;
             if (this.preview_src) {
-                window.addEventListener("resize", function(){resizeDiv(this.id, this.preview_src)});
-                window.addEventListener("load", function(){resizeDiv(this.id, this.preview_src)});
+                // bind resizeDiv to the current id and preview_src, create a function
+                let resizeDivCall = new Function("resizeDiv('" + this.id + "', '" + this.preview_src + "')");
+                window.addEventListener("resize", resizeDivCall);
+                window.addEventListener("load", resizeDivCall);
                 
                 function resizeDiv(id, preview_src) {
                     // calculate the height for the div, if the image is cut off
