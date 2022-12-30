@@ -198,9 +198,10 @@ This tool is provided as custom component which gets autoloaded
                         <style>
                         `;
             if (this.preview_src) {
-                window.addEventListener("resize", resizeDiv);
-                window.addEventListener("load", resizeDiv);
-                function resizeDiv() {
+                window.addEventListener("resize", function(){resizeDiv(this.id)});
+                window.addEventListener("load", function(){resizeDiv(this.id)});
+                
+                function resizeDiv(id) {
                     // calculate the height for the div, if the image is cut off
                     // get the real image size
                     let img = new Image();
@@ -209,7 +210,7 @@ This tool is provided as custom component which gets autoloaded
                     let height = img.height;
                     
                     // get height of the div .iframe-consent
-                    let iframecomponent = document.getElementById(this.id);
+                    let iframecomponent = document.getElementById(id);
                     let iframeConsentEl = iframecomponent.shadowRoot.querySelector(".iframe-consent");
                     let iframeConsentHeight = iframeConsentEl.offsetHeight;
                     let iframeConsentWidth = iframeConsentEl.offsetWidth;
