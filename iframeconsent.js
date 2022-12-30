@@ -256,7 +256,7 @@ This tool is provided as custom component which gets autoloaded
                                 justify-content: center;
                                 align-items: center;
                                 line-height: 1em;
-                                font-size: 2.5vw;
+                                font-size: clamp(16pt, 1.5vw, 2rem);
                             }
                             /* button */
                             .iframe-consent__load_button {
@@ -274,6 +274,9 @@ This tool is provided as custom component which gets autoloaded
                             }
                             .iframe-consent__link:hover {
                                 filter: brightness(70%);
+                            }
+                            label{
+                                cursor: pointer;
                             }
                             /* add a very small logo on the bottom right corner */
                             .iframe-consent__logo {
