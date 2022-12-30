@@ -76,7 +76,7 @@ This tool is provided as custom component which gets autoloaded
                     
                     // get height of the div .iframe-consent
                     let iframecomponent = document.getElementById(id);
-                    let iframeConsentEl = iframecomponent.shadowRoot.querySelector(".iframe-consent__image");
+                    let iframeConsentEl = iframecomponent.shadowRoot.querySelector(".iframe-consent");
                     let iframeConsentHeight = iframeConsentEl.offsetHeight;
                     let iframeConsentWidth = iframeConsentEl.offsetWidth;
                     let ratio = width / iframeConsentWidth;
