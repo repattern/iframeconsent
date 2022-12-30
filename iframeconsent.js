@@ -79,8 +79,8 @@ This tool is provided as custom component which gets autoloaded
                     let iframeConsentHeight = iframeConsentEl.offsetHeight;
                     let iframeConsentWidth = iframeConsentEl.offsetWidth;
                     let ratio = width / iframeConsentWidth;
-                    if (iframeConsentHeight<height*ratio){
-                        iframeConsentEl.style.height = (height*ratio) + "px";
+                    if (iframeConsentHeight<height/ratio){
+                        iframeConsentEl.style.height = (height/ratio) + "px";
                     }
                 },
                 load: function (id, nocheck) {
