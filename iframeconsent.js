@@ -198,7 +198,20 @@ This tool is provided as custom component which gets autoloaded
                         <style>
                         `;
             if (this.preview_src) {
-                let backgroundSize = "contain" || this.getAttribute('data-background-size');
+                // calculate the height for the div, if the image is cut off
+                // get the real image size
+                let img = new Image();
+                img.src = this.preview_src;
+                let width = img.width;
+                let height = img.height;
+                
+                // get height of the div .iframe-consent
+                let iframeConsentEl = document.querySelector(".iframe-consent");
+                let iframeConsentHeight = iframeConsentEl.offsetHeight;
+                let iframeConsentWidth = iframeConsentEl.offsetWidth;
+                let ratio = width / iframeConsentWidth;
+                iframeConsentEl.style.height = (iframeConsentHeight*ratio) + "px";
+                let backgroundSize = "cover" || this.getAttribute('data-background-size');
                 html += `.iframe-consent:before { content: "";
                 background-image: url('${this.preview_src}');
                 background-size: ${backgroundSize};
