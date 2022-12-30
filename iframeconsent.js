@@ -224,7 +224,7 @@ This tool is provided as custom component which gets autoloaded
                 window.addEventListener("load", resizeDivCall);
                 
                 let backgroundSize = "cover" || this.getAttribute('data-background-size');
-                html += `.iframe-consent { content: "";
+                html += `.iframe-consent__image { content: "";
                 background-image: url('${this.preview_src}');
                 background-size: ${backgroundSize};
                 position: absolute;
@@ -286,9 +286,9 @@ This tool is provided as custom component which gets autoloaded
                     </head>
                 <body>
                     <div class="iframe-consent">`;
-            /*if (this.preview_src) {
-                html += `<img src="${this.preview_src}" />`;
-            }*/
+            if (this.preview_src) {
+                html += `<div class="iframe-consent__image"><img src="${this.preview_src}" /></div>`;
+            }
             html += `<div class="iframe-consent__message">
                             ${this.custom_text}<br>
                             `;
