@@ -198,9 +198,10 @@ This tool is provided as custom component which gets autoloaded
                         <style>
                         `;
             if (this.preview_src) {
+                let backgroundSize = "contain" || this.getAttribute('data-background-size');
                 html += `.iframe-consent:before { content: "";
                 background-image: url('${this.preview_src}');
-                background-size: cover;
+                background-size: ${backgroundSize};
                 position: absolute;
                 background-repeat: no-repeat;
                 background-position: center;
@@ -224,12 +225,6 @@ This tool is provided as custom component which gets autoloaded
                                 position: absolute;
                                 top: 0;
                                 left: 0;
-                            }
-                            .iframe-consent__preview img {
-                                width: 100%;
-                                height: 100%;
-                                object-fit: contain;
-                                opacity: 0.2;
                             }
                             .iframe-consent__message {
                                 position: relative;

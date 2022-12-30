@@ -5,6 +5,7 @@ Attributes:
 - data-iframe-attributes: just add the iframe attributes (without the iframe), this is mandatory
 - data-language: use this if you want to force a language, otherwise the browser preferred language is used, optional
 - data-preview-src: this is the preview image used on the background, optional
+- data-background-size: let you set the background size, optional, default is "contain"
 - data-privacy-policy-src: Add a link (opens in a new tab) to your privacy policy, optional
 - data-privacy-policy-text: If you want to change the Link text to the privacy policy, optional
 - data-additional-text: Used to add additional own text, e.g. explaining what you are embedding, optional
