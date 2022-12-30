@@ -81,6 +81,8 @@ This tool is provided as custom component which gets autoloaded
                     let ratio = width / iframeConsentWidth;
                     if (iframeConsentHeight<height/ratio){
                         iframeConsentEl.style.height = (height/ratio) + "px";
+                    } else {
+
                     }
                 },
                 load: function (id, nocheck) {
@@ -222,7 +224,7 @@ This tool is provided as custom component which gets autoloaded
                 window.addEventListener("load", resizeDivCall);
                 
                 let backgroundSize = "cover" || this.getAttribute('data-background-size');
-                html += `.iframe-consent:before { content: "";
+                html += `.iframe-consent { content: "";
                 background-image: url('${this.preview_src}');
                 background-size: ${backgroundSize};
                 position: absolute;
