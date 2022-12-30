@@ -255,8 +255,8 @@ This tool is provided as custom component which gets autoloaded
                                 flex-direction: column;
                                 justify-content: center;
                                 align-items: center;
-                                line-height: 1.1vw;
-                                font-size: 1.8vw;
+                                line-height: 1em;
+                                font-size: 3vw;
                             }
                             /* button */
                             .iframe-consent__load_button {
