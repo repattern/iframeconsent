@@ -66,25 +66,23 @@ This tool is provided as custom component which gets autoloaded
                 ver: "iframeconsent by RePattern",
                 cookieConsents: false,
                 resizeDiv:function(id, preview_src) {
-                    
                     // calculate the height for the div, if the image is cut off
                     // get the real image size
                     let img = new Image();
+                    img.onload = function() {
+                        // get height of the div .iframe-consent
+                        let width = img.width;
+                        let height = img.height;    
+                        let iframecomponent = document.getElementById(id);
+                        let iframeConsentEl = iframecomponent.shadowRoot.querySelector(".iframe-consent");
+                        let iframeConsentHeight = iframeConsentEl.offsetHeight;
+                        let iframeConsentWidth = iframeConsentEl.offsetWidth;
+                        let ratio = width / iframeConsentWidth;
+                        if (iframeConsentHeight<height/ratio){
+                            iframeConsentEl.style.height = (height/ratio) + "px";
+                        }
+                    };
                     img.src = preview_src;
-                    let width = img.width;
-                    let height = img.height;
-                    
-                    // get height of the div .iframe-consent
-                    let iframecomponent = document.getElementById(id);
-                    let iframeConsentEl = iframecomponent.shadowRoot.querySelector(".iframe-consent");
-                    let iframeConsentHeight = iframeConsentEl.offsetHeight;
-                    let iframeConsentWidth = iframeConsentEl.offsetWidth;
-                    let ratio = width / iframeConsentWidth;
-                    if (iframeConsentHeight<height/ratio){
-                        iframeConsentEl.style.height = (height/ratio) + "px";
-                    } else {
-
-                    }
                 },
                 load: function (id, nocheck) {
                     try {
