@@ -287,13 +287,14 @@ This tool is provided as custom component which gets autoloaded
                                 justify-content: center;
                                 align-items: center;
                                 line-height: 1em;
-                                font-size: clamp(16pt, 1.5vw, 2rem);
+                                /*font-size: clamp(16pt, 1.5vw, 2rem);*/
                             }
                             /* button */
                             .iframe-consent__load_button {
                                 border: 1px solid black;
                                 padding: 1rem 2rem;
                                 margin: 2px;
+                                font-size:150px;
                                 cursor: pointer;
                             }
                             .iframe-consent__load_button:hover {
