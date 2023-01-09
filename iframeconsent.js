@@ -96,7 +96,12 @@ This tool is provided as custom component which gets autoloaded
                                 return;
                             } else {
                                 // load the content of the component
-                                iframecomponent.outerHTML = '<iframe ' + iframecomponent.getAttribute("data-iframe-attributes") + '></iframe>';
+                                if (iframecomponent.getAttribute("mode") == "iframe") {
+                                    iframecomponent.outerHTML = '<iframe ' + iframecomponent.getAttribute("data-iframe-attributes") + '></iframe>';
+                                } else {
+                                    let html_src_escaped = (iframecomponent.getAttribute("data-html-src").replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&#039;"));
+                                    iframecomponent.outerHTML = `<iframe srcdoc="`+html_src_escaped+`"></iframe>`;
+                                }
                             }
                             // check if the iframe-consent__save_choice_checkbox is checked
                             let savechoice = iframecomponent.shadowRoot.querySelector("#iframe-consent__save_choice_checkbox");
@@ -141,6 +146,12 @@ This tool is provided as custom component which gets autoloaded
                             }
                         }
                     }
+                },
+                encodeHTML: function (s) {
+                    // use base64 to encode the html
+                    // use an alternative to unescape, because it is deprecated
+                    // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/unescape
+                    return btoa((s));
                 }
             };
         }
@@ -156,18 +167,39 @@ This tool is provided as custom component which gets autoloaded
             this.cookieExpirationDays = parseInt(this.getAttribute('data-cookie-expiration-days')) || 15;
 
             // get the src="" attribute of the iframe out of the attribute "data-iframe-attributes"
-            this.iframe_src = this.getAttribute('data-iframe-attributes').match(/src="([^"]*)"/)[1] || "";
-            if (this.iframe_src == "") {
-                console.error("iframeconsent: no src attribute found in data-iframe-attributes");
+            this.iframe_src = this.getAttribute('data-iframe-attributes') || "";
+            this.iframe_src = (this.iframe_src.match(/src="([^"]*)"/) || [])[1] || "";
+            this.iframe_html_src = this.getAttribute('data-html-src') || "";
+            this.iframe_html_src_encoded = this.getAttribute('data-html-src-encoded') || "";
+            this.mode = "";
+            var helper="";
+            if ((this.iframe_html_src != "")||(this.iframe_html_src_encoded != "")) {
+                this.mode = "html";
+                this.iframe_title = "embedded html";
+                this.iframe_domain = "";
+                if (this.iframe_html_src_encoded != ""){
+                    this.iframe_html_src = decodeURIComponent(atob(this.iframe_html_src_encoded));
+                }
+                helper = this.iframe_html_src.replace(/[/.:<>'"`]/g, "");
+            }
+            if (this.iframe_src != "") {
+                this.mode = "iframe";
+                this.iframe_title = this.iframe_src;
+                // extract the domain from this.iframe_src
+                this.iframe_domain = (this.iframe_src.match(/:\/\/(.[^/]+)/) || [])[1] || "";
+                // remove all slashes dots and colons
+                helper = this.iframe_src.replace(/[/.:]/g, "");
+            }
+
+            if (this.mode == "") {
+                console.error("iframeconsent: no src attribute nor html source found in data-iframe-attributes");
                 return;
             }
-            // extract the domain from this.iframe_src
-            this.iframe_domain = this.iframe_src.match(/:\/\/(.[^/]+)/)[1] || "";
+            this.setAttribute("mode", this.mode);
             // the code to be loaded is included in the component's content
             this.privacy_policy_text = this.getAttribute('data-privacy-policy-text') || getText("privacy_policy", this.language);
             // generate unique id based on the this.iframe_src attribute
-            // remove all slashes dots and colons
-            var helper = this.iframe_src.replace(/[/.:]/g, "");
+            
             // make it lowercase
             helper = helper.toLowerCase();
             var finalHelper = "iframeconsent-" + helper;
@@ -244,6 +276,7 @@ This tool is provided as custom component which gets autoloaded
                                 justify-content: center;
                                 align-items: center;
                                 padding: 3px;
+                                max-height:100vh;
                             }
                             .iframe-consent__message {
                                 position: relative;
@@ -313,7 +346,7 @@ This tool is provided as custom component which gets autoloaded
             }
             html += `
                     <br>
-                        <button title="`+ this.iframe_src + `" onclick="iframeConsent.load('` + this.id + `');" class="iframe-consent__load_button">${getText("load_now_button", this.language)}</button>
+                        <button title="`+ this.iframe_title + `" onclick="iframeConsent.load('` + this.id + `');" class="iframe-consent__load_button">${getText("load_now_button", this.language)}</button>
                     <br>
                         <small style="align:center"><i>`+ this.iframe_domain + `</i></small>
                     
