@@ -294,7 +294,7 @@ This tool is provided as custom component which gets autoloaded
                                 border: 1px solid black;
                                 padding: 1rem 2rem;
                                 margin: 2px;
-                                font-size:150px;
+                                font-size:150%;
                                 cursor: pointer;
                             }
                             .iframe-consent__load_button:hover {
